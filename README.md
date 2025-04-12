@@ -1,4 +1,4 @@
-# React Component Generator (VS Code Extension)
+# React Component Maker (VS Code Extension)
 
 Quickly generate customizable React components using your own templates.
 This extension helps developers create structured and ready-to-use React components with a single right-click.
@@ -32,7 +32,7 @@ This extension helps developers create structured and ready-to-use React compone
 
 ## ⚙️ Configuration
 
-You can customize the behavior in `Settings → Extensions → React Component Generator`.
+You can customize the behavior in `Settings → Extensions → React Component Maker`.
 
 ### Available options:
 
@@ -65,21 +65,12 @@ const ${componentName} = () => {
 export default ${componentName};
 ```
 
-<br>
-
-## Change Log
-
-v.0.0.1
-
-+ Initial version
-
 <br><br><br>
 
 
 
 
-
-# React Component Generator (расширение для VS Code)
+# React Component Maker (расширение для VS Code)
 
 Быстрое создание настраиваемых по шаблонам React-компонентов.
 Это расширение помогает разработчикам создавать структуру компонентов с минимальными усилиями — по правому клику мыши.
@@ -113,7 +104,7 @@ v.0.0.1
 
 ## ⚙️ Настройки
 
-Настроить расширение можно в `Настройки → Расширения → React Component Generator`.
+Настроить расширение можно в `Настройки → Расширения → React Component Maker`.
 
 ### Доступные опции:
 
@@ -146,11 +137,3 @@ const ${componentName} = () => {
 
 export default ${componentName};
 ```
-
-<br>
-
-## История версий
-
-v.0.0.1
-
-+ Статовая версия

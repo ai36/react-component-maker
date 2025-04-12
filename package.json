@@ -1,11 +1,12 @@
 {
-    "name": "react-component-generator",
-    "displayName": "React Component Generator",
+    "name": "react-component-maker",
+    "displayName": "React Component Maker",
     "description": "Quickly generate customizable React components using templates",
     "version": "0.0.1",
-    "publisher": "Andrei Fedorov",
+    "publisher": "ai36",
+    "repository": "https://github.com/ai36/react-component-maker",
     "engines": {
-        "vscode": "^1.85.0"
+        "vscode": "^1.75.0"
     },
     "categories": [
         "Other"
