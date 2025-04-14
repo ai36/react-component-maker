@@ -32,7 +32,7 @@ This extension helps developers create structured and ready-to-use React compone
 
 ## ⚙️ Configuration
 
-You can customize the behavior in `Settings → Extensions → React Component Maker`.
+You can customize the behavior in `Settings → Extensions → React Component Maker` or CTRL + , → type "react component maker" for Windows and CMD + , → type "react component maker" for Mac.
 
 ### Available options:
 
@@ -50,20 +50,26 @@ You can customize the behavior in `Settings → Extensions → React Component M
 
 ## 📂 Template Folder
 
-Use the command **"Open Component Templates"** from the right-click menu to open your template folder (max 5 files shown).
+Use the command **"Open Component Templates"** from the right-click menu to open your template folder (max 5 files shown). In the editor, right-click on any template shortcut and in the context menu, click **"Reveal in File Explorer"**.
 
 Each template file should use placeholders like:
 
 ```js
-import React from 'react';
-import './${styleFileName}';
+import styles from "./${styleFileName}";
 
-const ${componentName} = () => {
-  return <div className="${className}">${componentName}</div>;
-};
-
-export default ${componentName};
+export function ${componentName}() {
+    return (
+        <div className={styles.${camelCase}}>
+            Hello from ${componentName}
+        </div>
+    );
+}
 ```
+
+Pay attention to the literals in the template, during generation they will be replaced with the corresponding values:
+- `${styleFileName}` with the name of the style file taking into account the suffixes (suffixes are specified in the settings)
+- `${componentName}` with the name of the component in the style specified in the settings
+- `${camelCase}` with the name of the component in the camelCase style
 
 <br><br><br>
 
@@ -104,7 +110,7 @@ export default ${componentName};
 
 ## ⚙️ Настройки
 
-Настроить расширение можно в `Настройки → Расширения → React Component Maker`.
+Настроить расширение можно в `Настройки → Расширения → React Component Maker` или CTRL + , → введите "react component maker" для Windows или CMD + , → введите "react component maker" для Mac.
 
 ### Доступные опции:
 
@@ -123,17 +129,23 @@ export default ${componentName};
 
 ## 📂 Папка шаблонов
 
-Команда **"Open Component Templates"** (по правому клику) откроет папку шаблонов (откроется до 5 файлов одновременно).
+Команда **"Open Component Templates"** (по правому клику) откроет папку шаблонов (откроется до 5 файлов одновременно). В редакторе, на любом ярлыке шаблона кликните правой кнопкой мыши и в контенстном меню нажмите на пункт **"Reveal in File Explorer"**.
 
 Каждый шаблон может использовать переменные:
 
 ```js
-import React from 'react';
-import './${styleFileName}';
+import styles from "./${styleFileName}";
 
-const ${componentName} = () => {
-  return <div className="${className}">${componentName}</div>;
-};
-
-export default ${componentName};
+export function ${componentName}() {
+    return (
+        <div className={styles.${camelCase}}>
+            Hello from ${componentName}
+        </div>
+    );
+}
 ```
+
+Обратите внимание на литералы в шаблоне, при генерации они будут заменены на соответсвующие значения:
+- `${styleFileName}` на имя файла с стилей с учетом суффиксов (суффиксы задаются в настройках)
+- `${componentName}` на имя компонента в стиле заданом в настройках
+- `${camelCase}` на имя компонента в стиле camelCase
