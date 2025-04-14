@@ -2,7 +2,7 @@
     "name": "react-component-maker",
     "displayName": "React Component Maker",
     "description": "Quickly generate customizable React components using templates",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "publisher": "ai36",
     "repository": "https://github.com/ai36/react-component-maker",
     "engines": {
@@ -37,7 +37,7 @@
                 {
                     "when": "explorerResourceIsFolder",
                     "command": "reactComponentGenerator.openTemplateFolder",
-                    "group": "navigation@101"
+                    "group": "navigation@110"
                 }
             ]
         },
