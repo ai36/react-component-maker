@@ -2,7 +2,7 @@
   "name": "react-component-maker",
   "displayName": "React Component Maker",
   "description": "Quickly generate customizable React components using templates",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "publisher": "ai36",
   "repository": "https://github.com/ai36/react-component-maker",
   "icon": "images/favicon.png",
