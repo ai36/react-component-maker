@@ -57,11 +57,11 @@ Each template file should use placeholders like:
 ```js
 import styles from "./${styleFileName}";
 
-export function ${componentName}() {
+export const ${componentName} = () => {
     return (
-        <div className={styles.${camelCase}}>
-            Hello from ${componentName}
-        </div>
+        <>
+            <div className={styles.${camelCase}}>Hello from ${componentName}</div>;
+        </>
     );
 }
 ```
@@ -136,11 +136,11 @@ Pay attention to the literals in the template, during generation they will be re
 ```js
 import styles from "./${styleFileName}";
 
-export function ${componentName}() {
+export const ${componentName} = () => {
     return (
-        <div className={styles.${camelCase}}>
-            Hello from ${componentName}
-        </div>
+        <>
+            <div className={styles.${camelCase}}>Hello from ${componentName}</div>;
+        </>
     );
 }
 ```
