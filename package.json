@@ -2,9 +2,10 @@
   "name": "react-component-maker",
   "displayName": "React Component Maker",
   "description": "Quickly generate customizable React components using templates",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "publisher": "ai36",
   "repository": "https://github.com/ai36/react-component-maker",
+  "icon": "images/favicon.png",
   "engines": {
     "vscode": "^1.75.0"
   },
@@ -116,8 +117,8 @@
         "reactComponentMaker.indexTemplate": {
           "type": "string",
           "editPresentation": "multilineText",
-          "default": "export * from './${fileName}';\n",
-          "description": "Template for the index file",
+          "default": "export * from './${componentFolderName}/${componentFileName}';\n",
+          "description": "Template for the index file.\nTemplate literals are supported, see README.md",
           "order": 41
         },
         "reactComponentMaker.indexInComponentFolder": {
@@ -136,7 +137,7 @@
           "type": "string",
           "editPresentation": "multilineText",
           "default": "export interface ${componentName}Props {\n}\n",
-          "description": "Template for the types.ts file",
+          "description": "Template for the types.ts file.\nTemplate literals are supported, see README.md",
           "order": 51
         },
         "reactComponentMaker.generateTestFile": {
@@ -148,8 +149,8 @@
         "reactComponentMaker.testTemplate": {
           "type": "string",
           "editPresentation": "multilineText",
-          "default": "import { render } from '@testing-library/react';\nimport ${componentName} from './${fileName}';\n\ndescribe('${componentName}', () => {\n  it('renders correctly', () => {\n    render(<${componentName} />);\n  });\n});",
-          "description": "Template for the test file",
+          "default": "import { render } from '@testing-library/react';\nimport ${componentName} from './${componentFolderName}/${componentFileName}';\n\ndescribe('${componentName}', () => {\n  it('renders correctly', () => {\n    render(<${componentName} />);\n  });\n});",
+          "description": "Template for the test file.\nTemplate literals are supported, see README.md",
           "order": 61
         }
       }
