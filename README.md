@@ -7,14 +7,14 @@ This extension helps developers create structured and ready-to-use React compone
 
 ## ✨ Features
 
-- Create components from your own templates (`.react-templates` folder)
+- Create components from your own templates (to access the `.react-templates` folder, see the instructions below)
 - Supports TypeScript or JavaScript
 - Auto-generate:
   - Style files (CSS, SCSS, or CSS Modules)
-  - Index files
+  - Index files (Сan be created in the component folder or added to existing re-exports either in parent directory)
   - Type declaration files
   - Unit tests (in `tests/` subfolder)
-- Custom file and folder naming styles
+- Custom file and folder naming styles, like "camelCase", "PascalCase", "kebab-case", "snake_case", "lowercase"
 - Easy configuration in settings
 
 <br>
@@ -26,7 +26,7 @@ This extension helps developers create structured and ready-to-use React compone
 3. Enter a component name
 4. Select a template from your template folder
 
-> 💡 Your templates must be `.jsx` files stored in the `.react-templates` folder inside the extension directory.
+> 💡 Your templates must be `.jsx`, `.tsx`, `.js` or `.ts` files stored in the `.react-templates` folder inside the extension directory.
 
 <br>
 
@@ -85,14 +85,14 @@ Pay attention to the literals in the template, during generation they will be re
 
 ## ✨ Возможности
 
-- Создание компонентов на основе ваших шаблонов (`.react-templates`)
+- Создание компонентов на основе ваших шаблонов (как добраться до папки шаблонов `.react-templates` читайте ниже)
 - Поддержка JavaScript и TypeScript
 - Автоматическая генерация:
   - Файлов стилей (CSS, SCSS, CSS Modules)
-  - Index-файлов
+  - Index-файлов (index.js может быть создан в папке компонента или в родительской - создан или добавлен к существующим реэкспортам)
   - Типов (`types.ts`)
   - Тестов (в папке `tests`)
-- Настройка стилей именования файлов и папок
+- Настройка стилей именования файлов и папок, поддерживаются "camelCase", "PascalCase", "kebab-case", "snake_case", "lowercase"
 - Гибкие настройки в интерфейсе VS Code
 
 <br>
@@ -104,7 +104,7 @@ Pay attention to the literals in the template, during generation they will be re
 3. Введите имя компонента
 4. Выберите шаблон из своей папки шаблонов
 
-> 💡 Шаблоны — это `.jsx` файлы, хранящиеся в папке `.react-templates` внутри папки расширения.
+> 💡 Шаблоны — это `.jsx`, `.tsx`, `.js` или `.ts` файлы, хранящиеся в папке `.react-templates` внутри папки расширения.
 
 <br>
 
@@ -129,7 +129,7 @@ Pay attention to the literals in the template, during generation they will be re
 
 ## 📂 Папка шаблонов
 
-Команда **"Open Component Templates"** (по правому клику) откроет папку шаблонов (откроется до 5 файлов одновременно). В редакторе, на любом ярлыке шаблона кликните правой кнопкой мыши и в контенстном меню нажмите на пункт **"Reveal in File Explorer"**.
+Команда **"Open Component Templates"** (по правому клику) откроет папку шаблонов (откроется до 5 файлов одновременно). В редакторе, на любом ярлыке шаблона кликните правой кнопкой мыши и в контекстном меню нажмите на пункт **"Reveal in File Explorer"**.
 
 Каждый шаблон может использовать переменные:
 
@@ -145,7 +145,7 @@ export function ${componentName}() {
 }
 ```
 
-Обратите внимание на литералы в шаблоне, при генерации они будут заменены на соответсвующие значения:
+Обратите внимание на литералы в шаблоне, при генерации они будут заменены на соответствующие значения:
 - `${styleFileName}` на имя файла с стилей с учетом суффиксов (суффиксы задаются в настройках)
-- `${componentName}` на имя компонента в стиле заданом в настройках
+- `${componentName}` на имя компонента в стиле заданном в настройках
 - `${camelCase}` на имя компонента в стиле camelCase

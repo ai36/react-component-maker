@@ -1,148 +1,160 @@
 {
-    "name": "react-component-maker",
-    "displayName": "React Component Maker",
-    "description": "Quickly generate customizable React components using templates",
-    "version": "0.0.2",
-    "publisher": "ai36",
-    "repository": "https://github.com/ai36/react-component-maker",
-    "engines": {
-        "vscode": "^1.75.0"
-    },
-    "categories": [
-        "Other"
+  "name": "react-component-maker",
+  "displayName": "React Component Maker",
+  "description": "Quickly generate customizable React components using templates",
+  "version": "0.0.3",
+  "publisher": "ai36",
+  "repository": "https://github.com/ai36/react-component-maker",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:reactComponentMaker.createComponent",
+    "onCommand:reactComponentMaker.openTemplateFolder"
+  ],
+  "main": "extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "reactComponentMaker.createComponent",
+        "title": "Create React Component"
+      },
+      {
+        "command": "reactComponentMaker.openTemplateFolder",
+        "title": "Open Component Templates"
+      }
     ],
-    "activationEvents": [
-        "onCommand:reactComponentGenerator.createComponent",
-        "onCommand:reactComponentGenerator.openTemplateFolder"
-    ],
-    "main": "extension.js",
-    "contributes": {
-        "commands": [
-            {
-                "command": "reactComponentGenerator.createComponent",
-                "title": "Create React Component"
-            },
-            {
-                "command": "reactComponentGenerator.openTemplateFolder",
-                "title": "Open Component Templates"
-            }
-        ],
-        "menus": {
-            "explorer/context": [
-                {
-                    "when": "explorerResourceIsFolder",
-                    "command": "reactComponentGenerator.createComponent",
-                    "group": "navigation@100"
-                },
-                {
-                    "when": "explorerResourceIsFolder",
-                    "command": "reactComponentGenerator.openTemplateFolder",
-                    "group": "navigation@110"
-                }
-            ]
+    "menus": {
+      "explorer/context": [
+        {
+          "when": "explorerResourceIsFolder",
+          "command": "reactComponentMaker.createComponent",
+          "group": "navigation@100"
         },
-        "configuration": {
-            "title": "React Component Generator",
-            "properties": {
-                "reactComponentGenerator.useTypeScript": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "If true, generates .tsx files instead of .jsx",
-                    "order": 1
-                },
-                "reactComponentGenerator.folderNameStyle": {
-                    "type": "string",
-                    "enum": [
-                        "camelCase",
-                        "PascalCase",
-                        "kebab-case",
-                        "lowercase"
-                    ],
-                    "default": "kebab-case",
-                    "description": "Style for the component folder name",
-                    "order": 20
-                },
-                "reactComponentGenerator.fileNameStyle": {
-                    "type": "string",
-                    "enum": [
-                        "camelCase",
-                        "PascalCase",
-                        "kebab-case",
-                        "lowercase"
-                    ],
-                    "default": "PascalCase",
-                    "description": "Style for the component file name",
-                    "order": 21
-                },
-                "reactComponentGenerator.createStyleFile": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Whether to generate a style file",
-                    "order": 30
-                },
-                "reactComponentGenerator.styleFileNameStyle": {
-                    "type": "string",
-                    "enum": [
-                        "camelCase",
-                        "PascalCase",
-                        "kebab-case",
-                        "lowercase"
-                    ],
-                    "default": "camelCase",
-                    "description": "Style for the style file name",
-                    "order": 31
-                },
-                "reactComponentGenerator.styleExtension": {
-                    "type": "string",
-                    "enum": [
-                        "css",
-                        "scss",
-                        "module.css",
-                        "module.scss"
-                    ],
-                    "default": "module.css",
-                    "description": "Extension for the style file. Use module.* for CSS modules",
-                    "order": 32
-                },
-                "reactComponentGenerator.generateIndexFile": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Generate index.js or index.ts file that exports the component",
-                    "order": 40
-                },
-                "reactComponentGenerator.indexTemplate": {
-                    "type": "string",
-                    "default": "export { default } from './${fileName}';",
-                    "description": "Template for the index file",
-                    "order": 41
-                },
-                "reactComponentGenerator.generateTypesFile": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "Generate a types.ts file for type declarations",
-                    "order": 50
-                },
-                "reactComponentGenerator.typesTemplate": {
-                    "type": "string",
-                    "default": "export interface ${componentName}Props {}",
-                    "description": "Template for the types.ts file",
-                    "order": 51
-                },
-                "reactComponentGenerator.generateTestFile": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "Generate a test file for the component",
-                    "order": 60
-                },
-                "reactComponentGenerator.testTemplate": {
-                    "type": "string",
-                    "default": "import { render } from '@testing-library/react';\nimport ${componentName} from './${fileName}';\n\ndescribe('${componentName}', () => {\n  it('renders correctly', () => {\n    render(<${componentName} />);\n  });\n});",
-                    "description": "Template for the test file",
-                    "order": 61
-                }
-            }
+        {
+          "when": "explorerResourceIsFolder",
+          "command": "reactComponentMaker.openTemplateFolder",
+          "group": "navigation@110"
         }
+      ]
     },
-    "scripts": {},
-    "devDependencies": {}
+    "configuration": {
+      "title": "React Component Maker",
+      "properties": {
+        "reactComponentMaker.useTypeScript": {
+          "type": "boolean",
+          "default": false,
+          "description": "If true, generates .tsx files instead of .jsx",
+          "order": 1
+        },
+        "reactComponentMaker.folderNameStyle": {
+          "type": "string",
+          "enum": [
+            "camelCase",
+            "PascalCase",
+            "kebab-case",
+            "snake_case",
+            "lowercase"
+          ],
+          "default": "kebab-case",
+          "description": "Style for the component folder name",
+          "order": 20
+        },
+        "reactComponentMaker.fileNameStyle": {
+          "type": "string",
+          "enum": [
+            "camelCase",
+            "PascalCase",
+            "kebab-case",
+            "snake_case",
+            "lowercase"
+          ],
+          "default": "PascalCase",
+          "description": "Style for the component file name",
+          "order": 21
+        },
+        "reactComponentMaker.createStyleFile": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether to generate a style file",
+          "order": 30
+        },
+        "reactComponentMaker.styleFileNameStyle": {
+          "type": "string",
+          "enum": [
+            "camelCase",
+            "PascalCase",
+            "kebab-case",
+            "snake_case",
+            "lowercase"
+          ],
+          "default": "camelCase",
+          "description": "Style for the style file name",
+          "order": 31
+        },
+        "reactComponentMaker.styleExtension": {
+          "type": "string",
+          "enum": [
+            "css",
+            "scss",
+            "module.css",
+            "module.scss"
+          ],
+          "default": "module.css",
+          "description": "Extension for the style file. Use module.* for CSS modules",
+          "order": 32
+        },
+        "reactComponentMaker.generateIndexFile": {
+          "type": "boolean",
+          "default": true,
+          "description": "Generate index.js or index.ts file that exports the component",
+          "order": 40
+        },
+        "reactComponentMaker.indexTemplate": {
+          "type": "string",
+          "editPresentation": "multilineText",
+          "default": "export * from './${fileName}';\n",
+          "description": "Template for the index file",
+          "order": 41
+        },
+        "reactComponentMaker.indexInComponentFolder": {
+          "type": "boolean",
+          "default": false,
+          "description": "If true, creates index file inside the component folder. Otherwise, appends to index file in the parent folder. If index.js exists in the parent folder, will add the component export to the existing file",
+          "order": 42
+        },
+        "reactComponentMaker.generateTypesFile": {
+          "type": "boolean",
+          "default": false,
+          "description": "Generate a types.ts file for type declarations",
+          "order": 50
+        },
+        "reactComponentMaker.typesTemplate": {
+          "type": "string",
+          "editPresentation": "multilineText",
+          "default": "export interface ${componentName}Props {\n}\n",
+          "description": "Template for the types.ts file",
+          "order": 51
+        },
+        "reactComponentMaker.generateTestFile": {
+          "type": "boolean",
+          "default": false,
+          "description": "Generate a test file for the component",
+          "order": 60
+        },
+        "reactComponentMaker.testTemplate": {
+          "type": "string",
+          "editPresentation": "multilineText",
+          "default": "import { render } from '@testing-library/react';\nimport ${componentName} from './${fileName}';\n\ndescribe('${componentName}', () => {\n  it('renders correctly', () => {\n    render(<${componentName} />);\n  });\n});",
+          "description": "Template for the test file",
+          "order": 61
+        }
+      }
+    }
+  },
+  "scripts": {},
+  "devDependencies": {}
 }
