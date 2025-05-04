@@ -1,5 +1,10 @@
 # Change Log
 
+## [0.0.4] - 2025-
+
++ Added favicon
++ Added guidance and tips in settings for replaceable variables in templates
+
 ## [0.0.3] - 2025-05-03
 
 + Added the ability to easily edit templates index.js, component.test.jsx/tsx and types.ts

@@ -55,21 +55,43 @@ Use the command **"Open Component Templates"** from the right-click menu to open
 Each template file should use placeholders like:
 
 ```js
-import styles from "./${styleFileName}";
+import styles from "./${componentStyleFileName}";
 
 export const ${componentName} = () => {
     return (
         <>
-            <div className={styles.${camelCase}}>Hello from ${componentName}</div>;
+            <div className={styles.${camelCase}}>Hello from ${componentName}</div>
         </>
     );
 }
 ```
 
-Pay attention to the literals in the template, during generation they will be replaced with the corresponding values:
-- `${styleFileName}` with the name of the style file taking into account the suffixes (suffixes are specified in the settings)
-- `${componentName}` with the name of the component in the style specified in the settings
-- `${camelCase}` with the name of the component in the camelCase style
+When creating component templates, you can use special literals. These literals will be automatically replaced with the appropriate values based on the component name and your settings.
+
+### Available Literals
+
+#### 📁 File and Folder Names
+
+| Literal                    | Example              | Description                                                                                       |
+|----------------------------|----------------------|---------------------------------------------------------------------------------------------------|
+| `${componentName}`         | `NavBar`             | Component name in PascalCase                                                                      |
+| `${componentFileName}`     | `NavBar.tsx`         | Component file name with extension (depends on *File Name Style* and *Use Type Script* settings)  |
+| `${componentFolderName}`   | `nav-bar`            | Component folder name (depends on *Folder Name Style* setting)                                    |
+| `${componentStyleFileName}`| `navBar.module.css`  | Style file name (depends on *Style File Name Style* and *Style Extension* settings)               |
+| `${componentIndexFileName}`| `index.ts`           | Index file name (always `index.js`)                                                               |
+| `${componentTypesFileName}`| `types.ts`           | Types file name (always `types.ts`)                                                               |
+| `${componentTestFileName}` | `NavBar.test.tsx`    | Test file name (depends on *File Name Style* and *Use Type Script* settings)                      |
+
+#### 🔤 Name Formats
+
+| Literal        | Example     | Description                      |
+|----------------|-------------|----------------------------------|
+| `${pascalCase}`| `NavBar`    | PascalCase (default)             |
+| `${camelCase}` | `navBar`    | camelCase                        |
+| `${kebabCase}` | `nav-bar`   | kebab-case                       |
+| `${snakeCase}` | `nav_bar`   | snake_case                       |
+| `${lowerCase}` | `navbar`    | all lowercase letters            |
+
 
 <br><br><br>
 
@@ -134,18 +156,39 @@ Pay attention to the literals in the template, during generation they will be re
 Каждый шаблон может использовать переменные:
 
 ```js
-import styles from "./${styleFileName}";
+import styles from "./${componentStyleFileName}";
 
 export const ${componentName} = () => {
     return (
         <>
-            <div className={styles.${camelCase}}>Hello from ${componentName}</div>;
+            <div className={styles.${camelCase}}>Hello from ${componentName}</div>
         </>
     );
 }
 ```
 
-Обратите внимание на литералы в шаблоне, при генерации они будут заменены на соответствующие значения:
-- `${styleFileName}` на имя файла с стилей с учетом суффиксов (суффиксы задаются в настройках)
-- `${componentName}` на имя компонента в стиле заданном в настройках
-- `${camelCase}` на имя компонента в стиле camelCase
+При создании шаблонов компонентов можно использовать специальные литералы. Они будут автоматически заменены на соответствующие значения в зависимости от имени компонента и настроек.
+
+### Доступные переменные
+
+#### 📁 Названия файлов и папок
+
+| Литерал                    | Пример                | Описание                                                                                       |
+|----------------------------|-----------------------|------------------------------------------------------------------------------------------------|
+| `${componentName}`         | `NavBar`              | Название компонента в PascalCase                                                               |
+| `${componentFileName}`     | `NavBar.tsx`          | Имя файла компонента с расширением (зависит от настроек - *File Name Style*, *Use Type Script*)|
+| `${componentFolderName}`   | `nav-bar`             | Имя папки компонента (зависит от настройки - *Folder Name Style*)                              |
+| `${componentStyleFileName}`| `navBar.module.css`   | Имя файла стилей (зависит от настроек - *Style File Name Style*, *Style Extension*)            |
+| `${componentIndexFileName}`| `index.ts`            | Имя index-файла (всегда index.js)                                                              |
+| `${componentTypesFileName}`| `types.ts`            | Имя файла с типами (всегда types.ts)                                                           |
+| `${componentTestFileName}` | `NavBar.test.tsx`     | Имя тестового файла (зависит от настроек - *File Name Style*, *Use Type Script*)               |
+
+#### 🔤 Форматы имени
+
+| Литерал        | Пример       | Описание                         |
+|----------------|--------------|----------------------------------|
+| `${pascalCase}`| `NavBar`     | PascalCase (по умолчанию)        |
+| `${camelCase}` | `navBar`     | camelCase                        |
+| `${kebabCase}` | `nav-bar`    | kebab-case                       |
+| `${snakeCase}` | `nav_bar`    | snake_case                       |
+| `${lowerCase}` | `navbar`     | все строчные буквы               |
