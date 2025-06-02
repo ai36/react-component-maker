@@ -2,7 +2,7 @@
   "name": "react-component-maker",
   "displayName": "React Component Maker",
   "description": "Quickly generate customizable React components using templates",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "publisher": "ai36",
   "repository": "https://github.com/ai36/react-component-maker",
   "icon": "images/favicon.png",
@@ -48,8 +48,15 @@
         "reactComponentMaker.useTypeScript": {
           "type": "boolean",
           "default": false,
-          "description": "If true, generates .tsx files instead of .jsx",
+          "description": "If true, generates .tsx/.ts files instead of .jsx/.js",
           "order": 1
+        },
+        "reactComponentMaker.defaultTemplate": {
+          "type": "string",
+          "editPresentation": "multilineText",
+          "default": "import styles from './${componentStyleFileName}';\n\nexport const ${componentName} = () => {\n  return (\n    <>\n      <div className={styles.${camelCase}}>Hello from ${componentName}</div>\n    </>\n  );\n}",
+          "description": "Default template for the component.\nTemplate literals are supported, see README.md",
+          "order": 10
         },
         "reactComponentMaker.folderNameStyle": {
           "type": "string",
@@ -117,7 +124,7 @@
         "reactComponentMaker.indexTemplate": {
           "type": "string",
           "editPresentation": "multilineText",
-          "default": "export * from './${componentFolderName}/${componentFileName}';\n",
+          "default": "export * from './${componentFolderName}/${componentBaseFileName}';\n",
           "description": "Template for the index file.\nTemplate literals are supported, see README.md",
           "order": 41
         },

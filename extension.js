@@ -10,15 +10,12 @@ const { formatName } = require("./utils/formatName.js");
 function activate(context) {
   const TEMPLATE_FOLDER = ".react-templates";
 
-
-
   // ====================== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ======================
   /**
    * Получает абсолютный путь к папке с шаблонами компонентов
    * @returns {string} Абсолютный путь к папке шаблонов
    */
   const getTemplatesPath = () => path.join(context.extensionPath, TEMPLATE_FOLDER);
-
 
   /**
    * Применяет замены в шаблоне (заменяет литералы на реальные значения)
@@ -33,7 +30,6 @@ function activate(context) {
     }
     return result;
   };
-
 
   /**
    * Добавляет экспорт в index-файл, если его еще нет
@@ -50,23 +46,18 @@ function activate(context) {
     fs.writeFileSync(indexPath, content, "utf8");
   };
 
-
-
   // ====================== КОМАНДЫ РАСШИРЕНИЯ ======================
   /**
    * Команда для создания нового React-компонента
    * @param {vscode.Uri} uri - URI папки, в которой создается компонент
    */
   const createComponentCommand = vscode.commands.registerCommand("reactComponentMaker.createComponent", async (uri) => {
-
-
     // 1. Получение имени компонента от пользователя
     const rawComponentName = await vscode.window.showInputBox({
       prompt: "Enter component name",
       validateInput: (text) => (text ? null : "Component name cannot be empty"),
     });
     if (!rawComponentName) return;
-
 
     // 2. Проверка наличия папки с шаблонами
     const templatesPath = getTemplatesPath();
@@ -75,27 +66,31 @@ function activate(context) {
       return;
     }
 
-
     // 3. Получение списка доступных шаблонов
     const templates = fs
       .readdirSync(templatesPath)
       .filter((file) => [".jsx", ".tsx", ".js", ".ts"].includes(path.extname(file)))
       .map((file) => path.basename(file, path.extname(file)));
+
     if (templates.length === 0) {
       vscode.window.showErrorMessage(`No templates found in "${TEMPLATE_FOLDER}".`);
       return;
     }
 
+    // 4. Получение настроек из конфигурации VS Code
+    const config = vscode.workspace.getConfiguration("reactComponentMaker");
 
-    // 4. Выбор шаблона пользователем
-    const selectedTemplate = await vscode.window.showQuickPick(templates, {
+    /**
+     * @description Добавление фейкового шаблона `_default` в начало списка
+     * Если пользователь выберет его — будет использован шаблон из настроек (defaultTemplate)
+     */
+    const defaultTemplateString = config.get("defaultTemplate"); // содержимое шаблона по умолчанию
+    const quickPickItems = ["_default", ...templates];
+
+    const selectedTemplateChoice = await vscode.window.showQuickPick(quickPickItems, {
       placeHolder: "Select a component template",
     });
-    if (!selectedTemplate) return;
-
-
-    // 5. Получение настроек из конфигурации VS Code
-    const config = vscode.workspace.getConfiguration("reactComponentMaker");
+    if (!selectedTemplateChoice) return;
 
     // Настройки файлов
     const useTS = config.get("useTypeScript");
@@ -116,8 +111,7 @@ function activate(context) {
     const typesTemplate = config.get("typesTemplate");
     const testTemplate = config.get("testTemplate");
 
-
-    // 6. Подготовка данных для замены в шаблонах
+    // Подготовка данных для замены в шаблонах
     const pascalComponentName = formatName(rawComponentName, "PascalCase");
     const camelComponentName = formatName(rawComponentName, "camelCase");
     const kebabClassName = formatName(rawComponentName, "kebab-case");
@@ -125,42 +119,51 @@ function activate(context) {
     const lowerCaseName = formatName(rawComponentName, "lowercase");
     const styleFileName = `${styleName}.${styleExt}`;
     const componentFileName = `${fileName}.${useTS ? "tsx" : "jsx"}`;
+    const componentBaseFileName = `${fileName}`;
     const indexFileName = `index.js`;
     const typesFileName = "types.ts";
     const testFileName = `${fileName}.test.${useTS ? "tsx" : "jsx"}`;
 
     const replacements = {
       "${componentName}": pascalComponentName,
-      "${className}": kebabClassName, // устарела, и будет удалена начиная с версии 0.0.10
-      "${styleFileName}": styleFileName, // устарела, и будет удалена начиная с версии 0.0.10
-      "${fileName}": fileName, // устарела, и будет удалена начиная с версии 0.0.10
+      "${className}": kebabClassName,
+      "${styleFileName}": styleFileName,
+      "${fileName}": fileName,
       "${camelCase}": camelComponentName,
-
-      // Обновленный список переменных допустимых для замены в шаблонах
-      "${componentName}": pascalComponentName,
       "${componentFileName}": componentFileName,
+      "${componentBaseFileName}": componentBaseFileName,
       "${componentFolderName}": folderName,
       "${componentStyleFileName}": styleFileName,
       "${componentIndexFileName}": indexFileName,
       "${componentTypesFileName}": typesFileName,
       "${componentTestFileName}": testFileName,
-      
-      "${camelCase}": camelComponentName,
       "${pascalCase}": pascalComponentName,
       "${kebabCase}": kebabClassName,
       "${snakeCase}": snakeCaseName,
       "${lowerCase}": lowerCaseName,
     };
 
-
-    // 7. Чтение и обработка основного шаблона компонента
-    const templatePath = path.join(templatesPath, `${selectedTemplate}.jsx`);
     let componentTemplate = "";
-    try {
-      componentTemplate = fs.readFileSync(templatePath, "utf8");
-    } catch (err) {
-      vscode.window.showErrorMessage(`Template file "${selectedTemplate}.jsx" not found.`);
-      return;
+
+    /**
+     * @description Выбор содержимого шаблона:
+     * - Если выбран `_default`, используется строка из настроек (defaultTemplate)
+     * - Иначе — читается файл шаблона из папки
+     */
+    if (selectedTemplateChoice === "_default") {
+      componentTemplate = defaultTemplateString;
+      if (!componentTemplate) {
+        vscode.window.showErrorMessage(`Default template is not configured in settings.`);
+        return;
+      }
+    } else {
+      const templatePath = path.join(templatesPath, `${selectedTemplateChoice}.jsx`);
+      try {
+        componentTemplate = fs.readFileSync(templatePath, "utf8");
+      } catch (err) {
+        vscode.window.showErrorMessage(`Template file "${selectedTemplateChoice}.jsx" not found.`);
+        return;
+      }
     }
 
     const componentContent = applyTemplate(componentTemplate, replacements);
@@ -169,8 +172,7 @@ function activate(context) {
       fs.mkdirSync(targetDir);
     }
 
-
-    // 8. Создание файлов компонента
+    // Создание основного файла компонента
     fs.writeFileSync(path.join(targetDir, componentFileName), componentContent);
 
     // Создание файла стилей (если нужно)
@@ -180,7 +182,8 @@ function activate(context) {
 
     // Создание index-файла (если нужно)
     if (generateIndex) {
-      const indexTargetPath = indexInComponentFolder ? path.join(targetDir, indexFileName) : path.join(uri.fsPath, indexFileName);
+      const indexFileNameExt = useTS ? typesFileName : indexFileName;
+      const indexTargetPath = indexInComponentFolder ? path.join(targetDir, indexFileNameExt) : path.join(uri.fsPath, indexFileNameExt);
       const exportLine = applyTemplate(indexTemplate, replacements).trim();
       if (!fs.existsSync(indexTargetPath)) {
         fs.writeFileSync(indexTargetPath, exportLine + "\n");
@@ -197,20 +200,16 @@ function activate(context) {
 
     // Создание тестового файла (если нужно)
     if (generateTest) {
-      const testFileName = `${fileName}.test.${useTS ? "tsx" : "jsx"}`;
       const testsDir = path.join(targetDir, "tests");
       if (!fs.existsSync(testsDir)) {
         fs.mkdirSync(testsDir);
       }
-
       const testContent = applyTemplate(testTemplate, replacements);
       fs.writeFileSync(path.join(testsDir, testFileName), testContent);
     }
 
     vscode.window.showInformationMessage(`Component ${pascalComponentName} created successfully!`);
   });
-
-
 
   /**
    * Команда для открытия папки с шаблонами
@@ -238,19 +237,14 @@ function activate(context) {
     }
   });
 
-
   // Регистрация команд расширения
   context.subscriptions.push(createComponentCommand, openTemplatesCommand);
 }
-
-
 
 /**
  * Функция деактивации расширения
  */
 function deactivate() {}
-
-
 
 module.exports = {
   activate,

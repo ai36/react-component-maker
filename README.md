@@ -37,14 +37,14 @@ You can customize the behavior in `Settings → Extensions → React Component M
 ### Available options:
 
 - **TypeScript support**: Enable `.tsx` files
-- **Folder and file naming styles**: camelCase, PascalCase, kebab-case, lowercase
+- **Folder and file naming styles**: camelCase, PascalCase, kebab-case, snake_case, lowercase
 - **Style options**:
   - Enable/disable style file generation
   - Set style extension: `css`, `scss`, `module.css`, `module.scss`
 - **Test generation**:
   - Enable/disable unit test files
   - Provide a test template
-- **Index and types templates**: customize exports and interfaces
+- **Component, index and types templates**: customize exports and interfaces
 
 <br>
 
@@ -58,11 +58,9 @@ Each template file should use placeholders like:
 import styles from "./${componentStyleFileName}";
 
 export const ${componentName} = () => {
-    return (
-        <>
-            <div className={styles.${camelCase}}>Hello from ${componentName}</div>
-        </>
-    );
+  return (
+    <div className={styles.${camelCase}}>Hello from ${componentName}</div>
+  );
 }
 ```
 
@@ -76,6 +74,7 @@ When creating component templates, you can use special literals. These literals 
 |----------------------------|----------------------|---------------------------------------------------------------------------------------------------|
 | `${componentName}`         | `NavBar`             | Component name in PascalCase                                                                      |
 | `${componentFileName}`     | `NavBar.tsx`         | Component file name with extension (depends on *File Name Style* and *Use Type Script* settings)  |
+| `${componentBaseFileName}` | `NavBar`             | Component file name without extension (depends on *File Name Style*)                              |
 | `${componentFolderName}`   | `nav-bar`            | Component folder name (depends on *Folder Name Style* setting)                                    |
 | `${componentStyleFileName}`| `navBar.module.css`  | Style file name (depends on *Style File Name Style* and *Style Extension* settings)               |
 | `${componentIndexFileName}`| `index.ts`           | Index file name (always `index.js`)                                                               |
@@ -145,7 +144,7 @@ When creating component templates, you can use special literals. These literals 
 - **Генерация тестов**:
   - Вкл/выкл
   - Шаблон теста
-- **Шаблоны index и types файлов**
+- **Шаблоны компонента, index и types файлов**
 
 <br>
 
@@ -159,11 +158,9 @@ When creating component templates, you can use special literals. These literals 
 import styles from "./${componentStyleFileName}";
 
 export const ${componentName} = () => {
-    return (
-        <>
-            <div className={styles.${camelCase}}>Hello from ${componentName}</div>
-        </>
-    );
+  return (
+    <div className={styles.${camelCase}}>Hello from ${componentName}</div>
+  );
 }
 ```
 
@@ -177,6 +174,7 @@ export const ${componentName} = () => {
 |----------------------------|-----------------------|------------------------------------------------------------------------------------------------|
 | `${componentName}`         | `NavBar`              | Название компонента в PascalCase                                                               |
 | `${componentFileName}`     | `NavBar.tsx`          | Имя файла компонента с расширением (зависит от настроек - *File Name Style*, *Use Type Script*)|
+| `${componentBaseFileName}` | `NavBar`              | Имя файла компонента без расширения (зависит от настройки - *File Name Style*)                 |
 | `${componentFolderName}`   | `nav-bar`             | Имя папки компонента (зависит от настройки - *Folder Name Style*)                              |
 | `${componentStyleFileName}`| `navBar.module.css`   | Имя файла стилей (зависит от настроек - *Style File Name Style*, *Style Extension*)            |
 | `${componentIndexFileName}`| `index.ts`            | Имя index-файла (всегда index.js)                                                              |
