@@ -120,7 +120,7 @@ function activate(context) {
     const styleFileName = `${styleName}.${styleExt}`;
     const componentFileName = `${fileName}.${useTS ? "tsx" : "jsx"}`;
     const componentBaseFileName = `${fileName}`;
-    const indexFileName = `index.js`;
+    const indexFileName = `index.${useTS ? "ts" : "js"}`;
     const typesFileName = "types.ts";
     const testFileName = `${fileName}.test.${useTS ? "tsx" : "jsx"}`;
 
@@ -182,8 +182,7 @@ function activate(context) {
 
     // Создание index-файла (если нужно)
     if (generateIndex) {
-      const indexFileNameExt = useTS ? typesFileName : indexFileName;
-      const indexTargetPath = indexInComponentFolder ? path.join(targetDir, indexFileNameExt) : path.join(uri.fsPath, indexFileNameExt);
+      const indexTargetPath = indexInComponentFolder ? path.join(targetDir, indexFileName) : path.join(uri.fsPath, indexFileName);
       const exportLine = applyTemplate(indexTemplate, replacements).trim();
       if (!fs.existsSync(indexTargetPath)) {
         fs.writeFileSync(indexTargetPath, exportLine + "\n");

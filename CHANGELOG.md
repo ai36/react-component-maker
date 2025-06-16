@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.0.7] - 2025-06-16
+
++ Fixed a bug that caused the types.ts file to be created instead of index.ts
+
 ## [0.0.6] - 2025-05-27
 
 + Added a new literal available for use in templates: `${componentBaseFileName}`. This is the name of the component file without the jsx or tsx extension
