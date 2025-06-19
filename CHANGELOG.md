@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.0.8] - 2025-06-19
+
++ Added support for local configuration files. You can now set the extension's preferences in an `.rcmakerrc.json` file (we recommend placing it next to your project's `package.json`). This lets you maintain different settings for each project without needing to change your global preferences each time.
+
 ## [0.0.7] - 2025-06-16
 
 + Fixed a bug that caused the types.ts file to be created instead of index.ts
