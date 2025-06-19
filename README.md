@@ -91,6 +91,36 @@ When creating component templates, you can use special literals. These literals 
 | `${snakeCase}` | `nav_bar`   | snake_case                       |
 | `${lowerCase}` | `navbar`    | all lowercase letters            |
 
+<br>
+
+## ⚙️ Project file settings
+
+The `.rcmakerrc.json` file allows you to save local settings for each project separately. The recommended location for this file is next to the project's `package.json`. Now, when switching between projects, there’s no need to change global settings every time.
+
+Local settings take precedence over global ones. The local settings file doesn’t have to include all settings-if something is missing, global settings will be used instead.
+
+When generating a component structure, the system searches for a local settings file starting from the parent folder and moving up the hierarchy until it reaches the folder that defines the VS Code workspace boundary. If no local settings files are found, global settings are applied.
+
+Here’s an example of a local configuration file:
+
+```json
+{
+  "useTypeScript": false,
+  "defaultTemplate": "import styles from './${componentStyleFileName}';\n\nexport const ${componentName} = () => {\n  return (\n    <>\n      <div className={styles.${camelCase}}>Hello from ${componentName}</div>\n    </>\n  );\n}",
+  "folderNameStyle": "kebab-case",
+  "fileNameStyle": "PascalCase",
+  "createStyleFile": true,
+  "styleFileNameStyle": "camelCase",
+  "styleExtension": "module.css",
+  "generateIndexFile": true,
+  "indexTemplate": "export * from './${componentFolderName}/${componentBaseFileName}';\n",
+  "indexInComponentFolder": false,
+  "generateTypesFile": false,
+  "typesTemplate": "export interface ${componentName}Props {\n}\n",
+  "generateTestFile": false,
+  "testTemplate": "import { render } from '@testing-library/react';\nimport ${componentName} from './${componentFolderName}/${componentFileName}';\n\ndescribe('${componentName}', () => {\n  it('renders correctly', () => {\n    render(<${componentName} />);\n  });\n});"
+}
+```
 
 <br><br><br>
 
@@ -190,3 +220,34 @@ export const ${componentName} = () => {
 | `${kebabCase}` | `nav-bar`    | kebab-case                       |
 | `${snakeCase}` | `nav_bar`    | snake_case                       |
 | `${lowerCase}` | `navbar`     | все строчные буквы               |
+
+<br>
+
+## ⚙️ Project file settings
+
+С помощью файла `.rcmakerrc.json` можно сохранить локальные настройки для каждого проекта отдельно. Рекомендуемое расположение файла - рядом в `package.json` проекта. Теперь при переключении между проектами нет необходимости изменять каждый раз глобальные настройки.
+
+Локальные настройки имеют высший приоритет на глобальными. Файл локальных настроек необязательно должен содержать все настройки. Если в локальном файле чего-то не хватает, будут использованы глобальные настройки.
+
+При создании структуры компонента происходит поиск файла с локальными настройками начиная с папке-родителе выше по иерархии вплоть до папки, которая ограничивает рабочее пространство VS Code. Если файлов с локальными настройками не найдено - используются глобальные.
+
+Вот пример файла локальной конфигурации:
+
+```json
+{
+  "useTypeScript": false,
+  "defaultTemplate": "import styles from './${componentStyleFileName}';\n\nexport const ${componentName} = () => {\n  return (\n    <>\n      <div className={styles.${camelCase}}>Hello from ${componentName}</div>\n    </>\n  );\n}",
+  "folderNameStyle": "kebab-case",
+  "fileNameStyle": "PascalCase",
+  "createStyleFile": true,
+  "styleFileNameStyle": "camelCase",
+  "styleExtension": "module.css",
+  "generateIndexFile": true,
+  "indexTemplate": "export * from './${componentFolderName}/${componentBaseFileName}';\n",
+  "indexInComponentFolder": false,
+  "generateTypesFile": false,
+  "typesTemplate": "export interface ${componentName}Props {\n}\n",
+  "generateTestFile": false,
+  "testTemplate": "import { render } from '@testing-library/react';\nimport ${componentName} from './${componentFolderName}/${componentFileName}';\n\ndescribe('${componentName}', () => {\n  it('renders correctly', () => {\n    render(<${componentName} />);\n  });\n});"
+}
+```

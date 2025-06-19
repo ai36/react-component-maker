@@ -18,6 +18,38 @@ function activate(context) {
   const getTemplatesPath = () => path.join(context.extensionPath, TEMPLATE_FOLDER);
 
   /**
+   * Рекурсивно ищет и загружает локальный конфигурационный файл .rcmakerrc.json
+   * в иерархии директорий от текущей папки к корню рабочего пространства
+   * @param {string} startPath - Путь, откуда начать поиск (обычно путь к компоненту)
+   * @returns {Object} Объединённый объект настроек (локальные перезаписывают глобальные)
+   */
+  function loadProjectSettings(startPath) {
+    const workspaceFolders = vscode.workspace.workspaceFolders;
+    if (!workspaceFolders) return {};
+
+    const workspaceRoot = workspaceFolders[0].uri.fsPath;
+    let currentPath = startPath;
+
+    while (currentPath.startsWith(workspaceRoot)) {
+      const configPath = path.join(currentPath, ".rcmakerrc.json");
+      if (fs.existsSync(configPath)) {
+        try {
+          const rawContent = fs.readFileSync(configPath, "utf8");
+          return JSON.parse(rawContent);
+        } catch (error) {
+          vscode.window.showWarningMessage(`Failed to read .rcmakerrc.json: ${error.message}`);
+          break;
+        }
+      }
+      const parentPath = path.dirname(currentPath);
+      if (parentPath === currentPath) break;
+      currentPath = parentPath;
+    }
+
+    return {};
+  }
+
+  /**
    * Применяет замены в шаблоне (заменяет литералы на реальные значения)
    * @param {string} template - Исходный текст шаблона
    * @param {Object} replacements - Объект с заменами (ключ - литерал, значение - замена)
@@ -80,11 +112,21 @@ function activate(context) {
     // 4. Получение настроек из конфигурации VS Code
     const config = vscode.workspace.getConfiguration("reactComponentMaker");
 
+    // 5. Загрузка локальных настроек, если есть
+    const localSettings = loadProjectSettings(uri.fsPath);
+
+    /**
+     * Хелпер: получаем настройку из локальных или глобальных конфигураций
+     * @param {string} key - Ключ настройки
+     * @returns {any}
+     */
+    const getSetting = (key) => (key in localSettings ? localSettings[key] : config.get(key));
+
     /**
      * @description Добавление фейкового шаблона `_default` в начало списка
      * Если пользователь выберет его — будет использован шаблон из настроек (defaultTemplate)
      */
-    const defaultTemplateString = config.get("defaultTemplate"); // содержимое шаблона по умолчанию
+    const defaultTemplateString = getSetting("defaultTemplate"); // содержимое шаблона по умолчанию
     const quickPickItems = ["_default", ...templates];
 
     const selectedTemplateChoice = await vscode.window.showQuickPick(quickPickItems, {
@@ -93,23 +135,23 @@ function activate(context) {
     if (!selectedTemplateChoice) return;
 
     // Настройки файлов
-    const useTS = config.get("useTypeScript");
-    const folderName = formatName(rawComponentName, config.get("folderNameStyle"));
-    const fileName = formatName(rawComponentName, config.get("fileNameStyle"));
-    const styleName = formatName(rawComponentName, config.get("styleFileNameStyle"));
-    const styleExt = config.get("styleExtension") || "module.css";
-    const createStyle = config.get("createStyleFile");
+    const useTS = getSetting("useTypeScript");
+    const folderName = formatName(rawComponentName, getSetting("folderNameStyle"));
+    const fileName = formatName(rawComponentName, getSetting("fileNameStyle"));
+    const styleName = formatName(rawComponentName, getSetting("styleFileNameStyle"));
+    const styleExt = getSetting("styleExtension") || "module.css";
+    const createStyle = getSetting("createStyleFile");
 
     // Настройки index-файла
-    const generateIndex = config.get("generateIndexFile");
-    const indexInComponentFolder = config.get("indexInComponentFolder");
-    const indexTemplate = config.get("indexTemplate");
+    const generateIndex = getSetting("generateIndexFile");
+    const indexInComponentFolder = getSetting("indexInComponentFolder");
+    const indexTemplate = getSetting("indexTemplate");
 
     // Настройки дополнительных файлов
-    const generateTypes = config.get("generateTypesFile");
-    const generateTest = config.get("generateTestFile");
-    const typesTemplate = config.get("typesTemplate");
-    const testTemplate = config.get("testTemplate");
+    const generateTypes = getSetting("generateTypesFile");
+    const generateTest = getSetting("generateTestFile");
+    const typesTemplate = getSetting("typesTemplate");
+    const testTemplate = getSetting("testTemplate");
 
     // Подготовка данных для замены в шаблонах
     const pascalComponentName = formatName(rawComponentName, "PascalCase");
@@ -121,7 +163,7 @@ function activate(context) {
     const componentFileName = `${fileName}.${useTS ? "tsx" : "jsx"}`;
     const componentBaseFileName = `${fileName}`;
     const indexFileName = `index.${useTS ? "ts" : "js"}`;
-    const typesFileName = "types.ts";
+    const typesFileName = `${fileName}.types.ts`;
     const testFileName = `${fileName}.test.${useTS ? "tsx" : "jsx"}`;
 
     const replacements = {
