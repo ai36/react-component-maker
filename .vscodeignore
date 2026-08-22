@@ -1,0 +1,4 @@
+.git/**
+.gitignore
+.rcmakerrc.json
+test/**
