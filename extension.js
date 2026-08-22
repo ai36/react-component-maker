@@ -136,7 +136,10 @@ function activate(context) {
 
     // Настройки файлов
     const useTS = getSetting("useTypeScript");
-    const folderName = formatName(rawComponentName, getSetting("folderNameStyle"));
+    const folderNameStyle = getSetting("folderNameStyle");
+    // "none" - отдельная папка для компонента не создается, файлы кладутся прямо в папку вызова
+    const noFolder = folderNameStyle === "none";
+    const folderName = noFolder ? "" : formatName(rawComponentName, folderNameStyle);
     const fileName = formatName(rawComponentName, getSetting("fileNameStyle"));
     const styleName = formatName(rawComponentName, getSetting("styleFileNameStyle"));
     const styleExt = getSetting("styleExtension") || "module.css";
@@ -174,7 +177,7 @@ function activate(context) {
       "${camelCase}": camelComponentName,
       "${componentFileName}": componentFileName,
       "${componentBaseFileName}": componentBaseFileName,
-      "${componentFolderName}": folderName,
+      "${componentFolderName}": noFolder ? "." : folderName,
       "${componentStyleFileName}": styleFileName,
       "${componentIndexFileName}": indexFileName,
       "${componentTypesFileName}": typesFileName,
@@ -209,8 +212,8 @@ function activate(context) {
     }
 
     const componentContent = applyTemplate(componentTemplate, replacements);
-    const targetDir = path.join(uri.fsPath, folderName);
-    if (!fs.existsSync(targetDir)) {
+    const targetDir = noFolder ? uri.fsPath : path.join(uri.fsPath, folderName);
+    if (!noFolder && !fs.existsSync(targetDir)) {
       fs.mkdirSync(targetDir);
     }
 
