@@ -1,0 +1,16 @@
+{
+  "useTypeScript": false,
+  "defaultTemplate": "import styles from './${componentStyleFileName}';\n\nexport const ${componentName} = () => {\n  return (\n    <>\n      <div className={styles.${camelCase}}>Hello from ${componentName}</div>\n    </>\n  );\n}",
+  "folderNameStyle": "kebab-case",
+  "fileNameStyle": "PascalCase",
+  "createStyleFile": true,
+  "styleFileNameStyle": "camelCase",
+  "styleExtension": "module.css",
+  "generateIndexFile": true,
+  "indexTemplate": "export * from './${componentFolderName}/${componentBaseFileName}';\n",
+  "indexInComponentFolder": false,
+  "generateTypesFile": false,
+  "typesTemplate": "export interface ${componentName}Props {\n}\n",
+  "generateTestFile": false,
+  "testTemplate": "import { render } from '@testing-library/react';\nimport ${componentName} from './${componentFolderName}/${componentFileName}';\n\ndescribe('${componentName}', () => {\n  it('renders correctly', () => {\n    render(<${componentName} />);\n  });\n});"
+}

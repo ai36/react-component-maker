@@ -2,7 +2,7 @@
   "name": "react-component-maker",
   "displayName": "React Component Maker",
   "description": "Quickly generate customizable React components using templates",
-  "version": "0.0.8",
+  "version": "0.0.10",
   "publisher": "ai36",
   "repository": "https://github.com/ai36/react-component-maker",
   "icon": "images/favicon.png",
@@ -65,10 +65,11 @@
             "PascalCase",
             "kebab-case",
             "snake_case",
-            "lowercase"
+            "lowercase",
+            "none"
           ],
           "default": "kebab-case",
-          "description": "Style for the component folder name",
+          "description": "Style for the component folder name. Use 'none' to skip creating a folder and generate files directly in the folder from which the command was invoked",
           "order": 20
         },
         "reactComponentMaker.fileNameStyle": {

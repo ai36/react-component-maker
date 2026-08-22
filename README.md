@@ -37,7 +37,7 @@ You can customize the behavior in `Settings → Extensions → React Component M
 ### Available options:
 
 - **TypeScript support**: Enable `.tsx` files
-- **Folder and file naming styles**: camelCase, PascalCase, kebab-case, snake_case, lowercase
+- **Folder and file naming styles**: camelCase, PascalCase, kebab-case, snake_case, lowercase (folder style also supports `none`, to skip creating a folder and generate files directly in the folder from which the command was invoked)
 - **Style options**:
   - Enable/disable style file generation
   - Set style extension: `css`, `scss`, `module.css`, `module.scss`
@@ -165,7 +165,7 @@ When creating component templates, you can use special literals. These literals 
 
 - **TypeScript**: включение `.tsx` вместо `.jsx`
 - **Стили именования**:
-  - Название папок и файлов: camelCase, PascalCase, kebab-case, lowercase
+  - Название папок и файлов: camelCase, PascalCase, kebab-case, snake_case, lowercase (для папки также доступен стиль `none` - отдельная папка не создается, файлы компонента создаются прямо в папке, из которой была вызвана команда)
 - **Стили компонентов**:
   - Генерация файла стилей (вкл/выкл)
   - Расширения: `css`, `scss`, `module.css`, `module.scss`
@@ -176,11 +176,11 @@ When creating component templates, you can use special literals. These literals 
 
 ### Локальная конфигурация
 
-С помощью файла `.rcmakerrc.json` можно сохранить локальные настройки для каждого проекта отдельно. Рекомендуемое расположение файла - рядом в `package.json` проекта. Теперь при переключении между проектами нет необходимости изменять каждый раз глобальные настройки.
+С помощью файла `.rcmakerrc.json` можно сохранить локальные настройки для каждого проекта отдельно. Рекомендуемое расположение файла - рядом с `package.json` проекта. Теперь при переключении между проектами нет необходимости изменять каждый раз глобальные настройки.
 
-Локальные настройки имеют высший приоритет на глобальными. Файл локальных настроек необязательно должен содержать все настройки. Если в локальном файле чего-то не хватает, будут использованы глобальные настройки.
+Локальные настройки имеют приоритет над глобальными. Файл локальных настроек необязательно должен содержать все настройки. Если в локальном файле чего-то не хватает, будут использованы глобальные настройки.
 
-При создании структуры компонента происходит поиск файла с локальными настройками начиная с папке-родителе выше по иерархии вплоть до папки, которая ограничивает рабочее пространство VS Code. Если файлов с локальными настройками не найдено - используются глобальные.
+При создании структуры компонента происходит поиск файла с локальными настройками начиная с папки-родителя выше по иерархии вплоть до папки, которая ограничивает рабочее пространство VS Code. Если файлов с локальными настройками не найдено - используются глобальные.
 
 Вот пример файла локальной конфигурации:
 
